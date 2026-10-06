@@ -24,8 +24,13 @@ jobs:
           modules: qtmultimedia
           cache: true
 
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
       - name: Configure
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+        run: cmake -S . -B build -G Ninja
 
       - name: Build
         run: cmake --build build --config Release
@@ -34,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Timer-Windows
-          path: build/Release/TimerApp.exe
+          path: build/TimerApp.exe
