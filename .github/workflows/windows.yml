@@ -35,8 +35,18 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Upload Windows build
+      - name: Deploy Qt
+        run: |
+          mkdir package
+          windeployqt --release --no-translations --compiler-runtime --dir package build/TimerApp.exe
+
+      - name: Copy sound
+        run: |
+          mkdir package/sounds
+          copy sounds/timer.wav package/sounds/timer.wav
+
+      - name: Upload Windows package
         uses: actions/upload-artifact@v4
         with:
           name: Timer-Windows
-          path: build/TimerApp.exe
+          path: package
